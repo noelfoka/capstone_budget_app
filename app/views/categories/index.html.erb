@@ -1,14 +1,36 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Categories</h1>
-
-<div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
+<%# path: app/views/categories/index.html.erb %>
+<div class="categories-index">
+  <div class="header">
+    <span><a href="<%= root_path %>" class="back-arrow">←</a></span>
+    <span>CATEGORIES</span>
+    <span><a href="<%= categories_path %>" class="back-arrow">&#128269;</a></span>
+  </div>
+  <div class="gift-credit">
+    <span>Total for all categories:</span>
+    <span>$ <%= @total %></span>
+  </div>
+  <hr>
+  <ul>
+    <% @categories.each do |category| %>
+      <%= link_to category do %>
+        <li>
+          <div class="left">
+            <%= content_tag(:span, raw(category.icon), class: "category-icon") %>
+            <span><%= category.name %></span>
+          </div>
+          <div class="right">
+            <span>total: </span>
+            <span> $ <%= @category_totals[category.name] %></span>
+          </div>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+  <div class="add-category">
+    <%= link_to new_category_path, class: "add-category-border" do %>
+      <div class="add-category-link">ADD CATEGORY</div>
+    <% end %>
+  </div>
+</div>
 </div>
 
-<%= link_to "New category", new_category_path %>
