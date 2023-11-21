@@ -83,6 +83,4 @@ test:
 #
 production:
   <<: *default
-  database: capstone_budget_app_production
-  username: postgres
-  password: nofono1990
+  url: <%= ENV['DATABASE_URL'] %>
