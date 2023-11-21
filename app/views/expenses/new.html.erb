@@ -1,9 +1,9 @@
 <%# path = app/views/expenses/new.html.erb %>
 <div class="categories-index">
   <div class="header">
-    <span><a href="<%= category_path %>" class="back-arrow">←</a></span>
+    <span><a href="<%= categories_path %>" class="back-arrow">←</a></span>
     <span>ADD EXPENSE</span>
-    <span><a href="<%= category_path %>" class="back-arrow">&#128269;</a></span>
+    <span><a href="<%= categories_path %>" class="back-arrow">&#128269;</a></span>
   </div>
   <%= form_for(@expense) do |f| %>
     <hr>
