@@ -49,6 +49,10 @@
 - **The desing is for mobile first approach**
 - **For handling user's log and register the App uses device gem**
 
+### Live demo <a name="live-demo">
+[Budget App](https://www.loom.com/share/c8fc171a9e044664a272c7fb4677a085)
+</a>
+
 ### Presentation Video <a name="presentation">
 [Budget App](https://www.loom.com/share/c8fc171a9e044664a272c7fb4677a085)
 </a>
