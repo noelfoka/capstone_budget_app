@@ -1,69 +1,54 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
-  # GET /categories or /categories.json
   def index
     @categories = Category.all
+    @expenses = Expense.all
+    @total = @expenses.sum(:amount)
+    @category_totals = calculate_categories_totals
   end
 
-  # GET /categories/1 or /categories/1.json
-  def show; end
+  def show
+    @category = Category.find_by(id: params[:id])
+    @expenses = Expense.where(category_id: params[:id]).order(created_at: :desc)
+    @total_for_category = @expenses.sum(:amount)
+  end
 
-  # GET /categories/new
   def new
     @category = Category.new
+    @icons = ['&#x1F374;', '&#x2708;', '&#x1F393;', '&#x1F489;', '&#x1F697;', '&#x1F4A1;', '&#x1F3E0;', '&#x1F3A7;',
+              '&#x1F6CD;', '&#x1F381;']
   end
 
-  # GET /categories/1/edit
-  def edit; end
-
-  # POST /categories or /categories.json
   def create
+    @icons = ['&#x1F374;', '&#x2708;', '&#x1F393;', '&#x1F489;', '&#x1F697;', '&#x1F4A1;', '&#x1F3E0;', '&#x1F3A7;',
+              '&#x1F6CD;', '&#x1F381;']
     @category = Category.new(category_params)
+    @category.user = current_user
 
-    respond_to do |format|
-      if @category.save
-        format.html { redirect_to category_url(@category), notice: 'Category was successfully created.' }
-        format.json { render :show, status: :created, location: @category }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /categories/1 or /categories/1.json
-  def update
-    respond_to do |format|
-      if @category.update(category_params)
-        format.html { redirect_to category_url(@category), notice: 'Category was successfully updated.' }
-        format.json { render :show, status: :ok, location: @category }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /categories/1 or /categories/1.json
-  def destroy
-    @category.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to categories_url, notice: 'Category was successfully destroyed.' }
-      format.json { head :no_content }
+    if @category.save
+      redirect_to categories_path
+    else
+      pp @category.errors
+      render 'new'
     end
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_category
-    @category = Category.find(params[:id])
+  def category_params
+    params.require(:category).permit(:name, :icon, :category_id, :user_id)
   end
 
-  # Only allow a list of trusted parameters through.
-  def category_params
-    params.require(:category).permit(:name, :icon, :user_id)
+  def calculate_categories_totals
+    category_totals = {}
+
+    @categories.each do |category|
+      category_expenses = @expenses.where(category_id: category.id)
+      total = category_expenses.sum(:amount)
+      category_totals[category.name] = total
+    end
+
+    category_totals
   end
 end
