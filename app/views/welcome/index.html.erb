@@ -1,0 +1,15 @@
+<%# path: app/views/welcome/index.html.erb %>
+
+<div class="login-signup">
+  <div class="up">
+    <h1>BudgeTracker</h1>
+  </div>
+  <div class="down">
+    <%= link_to new_user_session_path, class: "login-btn" do %>
+      <div class="login-btn-link">LOG IN</div>
+    <% end %>
+    <%= link_to new_user_registration_path, class: "signup-btn" do %>
+      <div class="signup-btn-link">SIGN UP</div>
+    <% end %>
+  </div>
+</div>
