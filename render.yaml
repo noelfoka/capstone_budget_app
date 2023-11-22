@@ -1,0 +1,18 @@
+databases:
+  - name: capstone_budget_app
+    databaseName: capstone_budget_app
+    user: capstone_budget_app_user
+
+services:
+  - type: web
+    name: BudgetApp
+    runtime: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: capstone_budget_app
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false

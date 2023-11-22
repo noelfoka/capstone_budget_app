@@ -1,0 +1,28 @@
+<%# path: app/views/categories/new.html.erb %>
+<div class="categories-index">
+  <div class="header">
+    <span><a href="<%= root_path %>" class="back-arrow">←</a></span>
+    <span>ADD CATEGORY</span>
+    <span><a href="<%= new_category_path %>" class="back-arrow">&#128269;</a></span>
+  </div>
+
+  <% if @category.errors.any? %>
+  asñdkflj
+  <% end %>
+
+  <%= form_for(@category) do |f| %>
+    <div class="field">
+      <%= f.text_field :name, autocomplete: "off", placeholder: "Name", required: true %>
+    </div>
+    <hr>
+    <div class="field-icon">
+      <%= f.select :icon, options_for_select(@icons.map { |icon| [icon.html_safe, icon] }, @icons.first), {}, autocomplete: "off" %>
+    </div>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <div class="add-category">
+      <div class="add-category-border">
+        <%= f.submit "CREATE", class:"add-category-link" %>
+      </div>
+    </div>
+  <% end %>
+</div>

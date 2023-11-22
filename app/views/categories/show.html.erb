@@ -1,0 +1,33 @@
+<%# path: app/views/categories/show.html.erb %>
+
+<div class="categories-index">
+  <div class="header">
+    <span><a href="<%= root_path %>" class="back-arrow">←</a></span>
+    <span>
+      <%= @category.name %>
+    </span>
+    <span><a href="<%= category_path %>" class="back-arrow">&#128269;</a></span>
+  </div>
+  <div class="gift-credit">
+    <span>Total for <%= @category.name %></span>
+    <span>$ <%= @total_for_category %></span>
+  </div>
+  <hr>
+  <ul>
+    <% @expenses.each do |expense| %>
+      <li class="categories-show-li">
+        <div class="left">
+          <%= expense.name %>
+        </div>
+        <div class="right">
+          $ <%= expense.amount %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= link_to new_expense_path, class: "add-category" do %>
+    <div class="add-category-border">
+      <div class="add-category-link">ADD EXPENSE</div>
+    </div>
+  <% end %>
+</div>
